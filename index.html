@@ -4,7 +4,8 @@
   <script>
   window.chatpilotConfig = {
     chatbotId: "f004b10730df4a568e923dcf21d784c7",
-    domain: "https://www.newoaks.ai"
+    domain: "https://www.newoaks.ai",
+    chatModeOnly: true
   }
 </script>
 <script
@@ -14,49 +15,138 @@
 ></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Disbursement Pipeline — Corporate Banking</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>CBZ Holdings — Disbursement Pipeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 /* ═══════════════════════════════════════
-   ROOT VARIABLES & RESET
+   CBZ HOLDINGS — BRAND VARIABLES
+   Primary:  CBZ Red   #D2232A
+   Dark:     CBZ Navy  #1B2E5E
+   Mid:      CBZ Blue  #2D5F9E
+   Light:    White     #FFFFFF
+   Surface:  Off-white #F5F6F8
 ═══════════════════════════════════════ */
 :root{
-  --bg:#0A0F1E;--bg2:#0E1528;--bg3:#131D35;--bg4:#192240;
-  --teal:#00C9B1;--teal2:#00E5CA;--teal3:rgba(0,201,177,0.12);
-  --gold:#F0A500;--gold2:#FFB822;
-  --red:#FF4D6A;--green:#22D48F;--blue:#4A90E2;--purple:#9B72FF;
-  --text:#EDF2FF;--text2:#8A9CC5;--text3:#4A5A80;
-  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
-  --card:rgba(255,255,255,0.035);--card2:rgba(255,255,255,0.065);
-  --r:10px;--r2:16px;--r3:22px;
-  --font-head:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;--font-mono:'DM Mono',monospace;
-  --sidebar:240px;--hdr:62px;
+  /* CBZ Brand Palette */
+  --cbz-red:    #D2232A;
+  --cbz-red2:   #B01E24;
+  --cbz-red3:   rgba(210,35,42,0.1);
+  --cbz-navy:   #1B2E5E;
+  --cbz-navy2:  #142450;
+  --cbz-blue:   #2D5F9E;
+  --cbz-blue2:  #3A78BF;
+  --cbz-blue3:  rgba(45,95,158,0.12);
+
+  /* App backgrounds — dark navy theme */
+  --bg:   #0F1B35;
+  --bg2:  #152240;
+  --bg3:  #1B2E5E;
+  --bg4:  #213770;
+
+  /* Semantic colours */
+  --primary:  var(--cbz-red);
+  --primary2: var(--cbz-red2);
+  --accent:   var(--cbz-blue);
+  --accent2:  var(--cbz-blue2);
+  --gold:     #C89500;
+  --gold2:    #E0AA00;
+  --green:    #1E8A5E;
+  --green2:   #27AE7A;
+  --red:      var(--cbz-red);
+  --purple:   #5B4FC4;
+
+  /* Text */
+  --text:    #F0F3FA;
+  --text2:   #8EA6C9;
+  --text3:   #4E6A92;
+
+  /* Borders & Cards */
+  --border:  rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.14);
+  --card:    rgba(255,255,255,0.035);
+  --card2:   rgba(255,255,255,0.065);
+
+  /* Radii */
+  --r:  8px;
+  --r2: 12px;
+  --r3: 18px;
+
+  /* Typography */
+  --font-head: 'Merriweather', Georgia, serif;
+  --font-body: 'Source Sans 3', system-ui, sans-serif;
+  --font-mono: 'Source Code Pro', monospace;
+
+  /* Layout */
+  --sidebar: 252px;
+  --hdr: 64px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;font-family:var(--font-body);background:var(--bg);color:var(--text);font-size:14px;overflow:hidden}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:4px}
 
 /* ═══════════════════════════════════════
-   LOGIN
+   LOGIN — CBZ Branded
 ═══════════════════════════════════════ */
-#login{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);z-index:999;
-  background-image:radial-gradient(ellipse 60% 50% at 50% -10%,rgba(0,201,177,0.12),transparent),
-                   radial-gradient(ellipse 40% 40% at 90% 90%,rgba(74,144,226,0.08),transparent);}
-.lc{width:400px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r3);padding:40px;position:relative;overflow:hidden}
-.lc::before{content:'';position:absolute;top:-60px;left:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(0,201,177,0.1),transparent 70%);pointer-events:none}
-.l-logo{display:flex;align-items:center;gap:14px;margin-bottom:36px}
-.l-mark{width:46px;height:46px;border-radius:14px;background:var(--teal);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:16px;color:var(--bg);flex-shrink:0}
-.l-title{font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--text)}
-.l-sub{font-size:11px;color:var(--text3);margin-top:2px}
-.l-err{background:rgba(255,77,106,0.1);border:1px solid rgba(255,77,106,0.3);border-radius:var(--r);padding:10px 14px;font-size:13px;color:#FF8099;margin-bottom:16px;display:none}
+#login{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:999;
+  background:var(--bg);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 50% -5%, rgba(210,35,42,0.15), transparent),
+    radial-gradient(ellipse 50% 40% at 80% 100%, rgba(27,46,94,0.6), transparent);
+}
+.lc{
+  width:420px;
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:var(--r3);
+  padding:0;
+  overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04);
+}
+.lc-banner{
+  background:var(--cbz-red);
+  padding:28px 36px 24px;
+  position:relative;
+  overflow:hidden;
+}
+.lc-banner::before{
+  content:'';position:absolute;top:-30px;right:-30px;
+  width:150px;height:150px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.06);
+}
+.lc-banner::after{
+  content:'';position:absolute;bottom:-40px;left:30px;
+  width:100px;height:100px;border-radius:50%;
+  background:rgba(0,0,0,0.08);
+}
+.lc-logo{display:flex;align-items:center;gap:16px;margin-bottom:12px;position:relative;z-index:1}
+.lc-logo-img{
+  width:52px;height:52px;
+  background:#fff;
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  flex-shrink:0;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+.lc-logo-img svg{width:48px;height:48px}
+.lc-brand{color:#fff}
+.lc-brand-name{font-family:var(--font-head);font-size:20px;font-weight:700;line-height:1.1}
+.lc-brand-sub{font-size:12px;opacity:.75;margin-top:2px;font-weight:400}
+.lc-divider{font-size:11px;color:rgba(255,255,255,0.6);font-weight:400;position:relative;z-index:1}
+.lc-body{padding:32px 36px 36px}
+.l-err{background:rgba(210,35,42,0.12);border:1px solid rgba(210,35,42,0.3);border-radius:var(--r);padding:10px 14px;font-size:13px;color:#FF9099;margin-bottom:16px;display:none}
 .fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
-.fg label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.09em}
-.fg input{padding:11px 14px;border-radius:var(--r);border:1px solid var(--border);background:rgba(255,255,255,0.04);color:var(--text);font-size:13px;font-family:var(--font-body);outline:none;transition:border-color .15s}
-.fg input:focus{border-color:var(--teal);background:rgba(0,201,177,0.04)}
-.l-btn{width:100%;margin-top:8px;padding:13px;border-radius:var(--r);background:var(--teal);border:none;color:var(--bg);font-size:14px;font-weight:600;font-family:var(--font-head);cursor:pointer;letter-spacing:.02em;transition:background .15s}
-.l-btn:hover{background:var(--teal2)}
-.l-hint{text-align:center;font-size:11px;color:var(--text3);margin-top:16px}
-.l-hint strong{color:var(--text2)}
+.fg label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
+.fg input{padding:11px 14px;border-radius:var(--r);border:1px solid var(--border);background:rgba(255,255,255,0.05);color:var(--text);font-size:14px;font-family:var(--font-body);outline:none;transition:border-color .15s}
+.fg input:focus{border-color:var(--cbz-red);background:rgba(210,35,42,0.04)}
+.l-btn{width:100%;margin-top:8px;padding:13px;border-radius:var(--r);background:var(--cbz-red);border:none;color:#fff;font-size:14px;font-weight:600;font-family:var(--font-body);cursor:pointer;letter-spacing:.02em;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.l-btn:hover{background:var(--cbz-red2)}
+.l-hint{text-align:center;font-size:11px;color:var(--text3);margin-top:14px}
 
 /* ═══════════════════════════════════════
    APP SHELL
@@ -68,39 +158,63 @@ html,body{height:100%;font-family:var(--font-body);background:var(--bg);color:va
 #content{flex:1;overflow-y:auto;padding:24px}
 
 /* ═══════════════════════════════════════
-   SIDEBAR
+   SIDEBAR — CBZ Theme
 ═══════════════════════════════════════ */
-.sb-top{padding:20px 18px 16px;border-bottom:1px solid var(--border)}
-.sb-mark{width:32px;height:32px;border-radius:9px;background:var(--teal);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:12px;color:var(--bg);flex-shrink:0}
-.sb-brand{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--teal);line-height:1.2}
-.sb-div{font-size:10px;color:var(--text3);margin-top:1px}
-.sb-logo{display:flex;align-items:center;gap:10px}
+.sb-top{
+  padding:0;
+  border-bottom:1px solid var(--border);
+  background:var(--cbz-red);
+  position:relative;
+  overflow:hidden;
+}
+.sb-top::after{
+  content:'';position:absolute;bottom:-20px;right:-20px;
+  width:80px;height:80px;border-radius:50%;
+  background:rgba(0,0,0,0.1);
+}
+.sb-logo-wrap{
+  padding:18px 18px 16px;
+  display:flex;align-items:center;gap:12px;
+  position:relative;z-index:1;
+}
+.sb-logo-img{
+  width:36px;height:36px;
+  background:#fff;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  overflow:hidden;
+}
+.sb-logo-img svg{width:32px;height:32px}
+.sb-brand-wrap{}
+.sb-brand{font-family:var(--font-head);font-size:12px;font-weight:700;color:#fff;line-height:1.2}
+.sb-div{font-size:10px;color:rgba(255,255,255,0.65);margin-top:1px;font-weight:400}
 .sb-nav{flex:1;overflow-y:auto;padding:10px 0}
-.sb-sec{padding:10px 18px 4px;font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.12em;text-transform:uppercase}
-.si{display:flex;align-items:center;gap:9px;padding:8px 18px;cursor:pointer;color:var(--text2);font-size:13px;transition:all .12s;border-left:2px solid transparent;position:relative}
-.si:hover{background:var(--card);color:var(--text)}
-.si.active{background:var(--card2);color:var(--teal);border-left-color:var(--teal);font-weight:500}
-.si .ico{width:16px;text-align:center;font-size:13px;flex-shrink:0}
-.si-badge{margin-left:auto;background:var(--teal);color:var(--bg);font-size:9px;font-weight:700;padding:2px 6px;border-radius:20px;min-width:18px;text-align:center}
+.sb-sec{padding:16px 18px 4px;font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.14em;text-transform:uppercase}
+.si{display:flex;align-items:center;gap:10px;padding:9px 18px;cursor:pointer;color:var(--text2);font-size:13px;font-weight:400;transition:all .12s;border-left:3px solid transparent;position:relative}
+.si:hover{background:var(--card);color:var(--text);border-left-color:rgba(210,35,42,0.3)}
+.si.active{background:rgba(210,35,42,0.08);color:#fff;border-left-color:var(--cbz-red);font-weight:600}
+.si .ico{width:16px;text-align:center;font-size:12px;flex-shrink:0;opacity:.7}
+.si.active .ico{opacity:1}
+.si-badge{margin-left:auto;background:var(--cbz-red);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;min-width:20px;text-align:center;letter-spacing:.02em}
 .si-badge.g{background:var(--gold)}
-.si-badge.r{background:var(--red)}
+.si-badge.b{background:var(--cbz-blue)}
 .sb-bot{padding:14px 18px;border-top:1px solid var(--border)}
-.sb-user{display:flex;align-items:center;gap:9px}
-.sb-av{width:30px;height:30px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--teal);flex-shrink:0}
-.sb-uname{font-size:12px;font-weight:500}
-.sb-urole{font-size:10px;color:var(--text3);margin-top:1px}
-.sb-out{margin-left:auto;background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;transition:color .15s;padding:3px}
-.sb-out:hover{color:var(--red)}
+.sb-user{display:flex;align-items:center;gap:10px}
+.sb-av{width:32px;height:32px;border-radius:50%;background:var(--cbz-red);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.sb-uname{font-size:12px;font-weight:600;color:var(--text)}
+.sb-urole{font-size:10px;color:var(--text3);margin-top:1px;text-transform:uppercase;letter-spacing:.05em}
+.sb-out{margin-left:auto;background:none;border:none;color:var(--text3);cursor:pointer;font-size:15px;transition:color .15s;padding:4px;border-radius:4px}
+.sb-out:hover{color:var(--cbz-red)}
 
 /* ═══════════════════════════════════════
    HEADER
 ═══════════════════════════════════════ */
-.h-title{font-family:var(--font-head);font-size:17px;font-weight:700}
+.h-title{font-family:var(--font-head);font-size:16px;font-weight:700;color:var(--text);letter-spacing:-.01em}
 .h-date{font-size:11px;color:var(--text3);font-family:var(--font-mono);margin-left:auto}
-.hbtn{padding:8px 16px;border-radius:var(--r);font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--card2);color:var(--text);transition:all .15s;font-family:var(--font-body)}
-.hbtn:hover{border-color:var(--teal);color:var(--teal)}
-.hbtn.p{background:var(--teal);border-color:var(--teal);color:var(--bg);font-weight:700}
-.hbtn.p:hover{background:var(--teal2)}
+.hbtn{padding:8px 16px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--card2);color:var(--text);transition:all .15s;font-family:var(--font-body)}
+.hbtn:hover{border-color:var(--cbz-red);color:var(--cbz-red)}
+.hbtn.p{background:var(--cbz-red);border-color:var(--cbz-red);color:#fff;font-weight:600}
+.hbtn.p:hover{background:var(--cbz-red2)}
 
 /* ═══════════════════════════════════════
    PAGES
@@ -110,23 +224,36 @@ html,body{height:100%;font-family:var(--font-body);background:var(--bg);color:va
 /* ═══════════════════════════════════════
    CARDS
 ═══════════════════════════════════════ */
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:20px}
-.card-h{font-family:var(--font-head);font-size:14px;font-weight:700;margin-bottom:4px}
-.card-sub{font-size:11px;color:var(--text3)}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:20px}
+.card-h{font-family:var(--font-head);font-size:14px;font-weight:700;margin-bottom:4px;letter-spacing:-.01em}
+.card-sub{font-size:12px;color:var(--text3)}
 .card-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px}
 .mb16{margin-bottom:16px}.mb20{margin-bottom:20px}.mb24{margin-bottom:24px}
 
 /* ═══════════════════════════════════════
    METRIC CARDS
 ═══════════════════════════════════════ */
-.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-bottom:20px}
-.mc{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;position:relative;overflow:hidden}
-.mc::after{content:'';position:absolute;top:-15px;right:-15px;width:70px;height:70px;border-radius:50%;opacity:.08}
-.mc.t::after{background:var(--teal)}.mc.g::after{background:var(--gold)}.mc.b::after{background:var(--blue)}.mc.gr::after{background:var(--green)}.mc.r::after{background:var(--red)}.mc.p::after{background:var(--purple)}
-.mc-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
-.mc-val{font-size:21px;font-weight:700;font-family:var(--font-head);line-height:1}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px}
+.mc{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:var(--r2);
+  padding:16px 18px;
+  position:relative;overflow:hidden;
+}
+.mc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.mc.t::before{background:var(--cbz-red)}
+.mc.g::before{background:var(--gold)}
+.mc.b::before{background:var(--cbz-blue)}
+.mc.gr::before{background:var(--green)}
+.mc.r::before{background:var(--cbz-red)}
+.mc.p::before{background:var(--purple)}
+.mc::after{content:'';position:absolute;top:-15px;right:-15px;width:70px;height:70px;border-radius:50%;opacity:.06}
+.mc.t::after{background:var(--cbz-red)}.mc.g::after{background:var(--gold)}.mc.b::after{background:var(--cbz-blue)}.mc.gr::after{background:var(--green)}.mc.r::after{background:var(--cbz-red)}.mc.p::after{background:var(--purple)}
+.mc-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:6px;font-weight:600}
+.mc-val{font-size:20px;font-weight:700;font-family:var(--font-head);line-height:1}
 .mc-sub{font-size:10px;color:var(--text3);margin-top:5px}
-.ct{color:var(--teal)}.cg{color:var(--gold)}.cb{color:var(--blue)}.cgr{color:var(--green)}.cr{color:var(--red)}.cp{color:var(--purple)}
+.ct{color:var(--cbz-red)}.cg{color:var(--gold)}.cb{color:var(--cbz-blue2)}.cgr{color:var(--green2)}.cr{color:var(--cbz-red)}.cp{color:var(--purple)}
 
 /* ═══════════════════════════════════════
    CHARTS
@@ -139,39 +266,47 @@ html,body{height:100%;font-family:var(--font-body);background:var(--bg);color:va
 ═══════════════════════════════════════ */
 .tw{overflow-x:auto;border-radius:var(--r2);border:1px solid var(--border)}
 table{width:100%;border-collapse:collapse;font-size:13px}
-th{background:rgba(255,255,255,0.025);padding:9px 13px;text-align:left;font-size:10px;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;border-bottom:1px solid var(--border)}
+th{
+  background:rgba(27,46,94,0.5);
+  padding:9px 13px;text-align:left;
+  font-size:10px;font-weight:700;color:var(--text3);
+  letter-spacing:.09em;text-transform:uppercase;
+  white-space:nowrap;border-bottom:1px solid var(--border);
+  font-family:var(--font-body);
+}
 td{padding:10px 13px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
 tr:last-child td{border-bottom:none}
-tr:hover td{background:rgba(255,255,255,0.02)}
-.tn{font-weight:500}.tm{font-family:var(--font-mono);font-size:12px}
+tr:hover td{background:rgba(210,35,42,0.03)}
+.tn{font-weight:600;font-family:var(--font-body)}
+.tm{font-family:var(--font-mono);font-size:12px}
 .te td{text-align:center;color:var(--text3);padding:32px;font-size:13px}
 
 /* ═══════════════════════════════════════
    BADGES
 ═══════════════════════════════════════ */
-.bd{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap;letter-spacing:.02em}
-.bd-exco{background:rgba(74,144,226,.13);color:#74AAFF;border:1px solid rgba(74,144,226,.2)}
-.bd-board{background:rgba(240,165,0,.13);color:var(--gold);border:1px solid rgba(240,165,0,.2)}
-.bd-signed{background:rgba(0,201,177,.13);color:var(--teal);border:1px solid rgba(0,201,177,.2)}
-.bd-sec{background:rgba(155,114,255,.13);color:#B99BFF;border:1px solid rgba(155,114,255,.2)}
-.bd-util{background:rgba(255,167,38,.13);color:#FFB74D;border:1px solid rgba(255,167,38,.2)}
-.bd-ready{background:rgba(34,212,143,.13);color:var(--green);border:1px solid rgba(34,212,143,.2)}
-.bd-full{background:rgba(34,212,143,.1);color:#5EF0B3;border:1px solid rgba(34,212,143,.15)}
-.bd-part{background:rgba(240,165,0,.1);color:#FFD060;border:1px solid rgba(240,165,0,.15)}
-.bd-usd{background:rgba(74,144,226,.1);color:#93C5FD;border:1px solid rgba(74,144,226,.15);font-family:var(--font-mono)}
-.bd-zig{background:rgba(240,165,0,.1);color:#FCD34D;border:1px solid rgba(240,165,0,.15);font-family:var(--font-mono)}
-.bd-tob{background:rgba(155,114,255,.13);color:#C4ABFF;border:1px solid rgba(155,114,255,.2)}
+.bd{display:inline-flex;align-items:center;padding:3px 9px;border-radius:4px;font-size:10px;font-weight:700;white-space:nowrap;letter-spacing:.03em;text-transform:uppercase}
+.bd-exco{background:rgba(45,95,158,.15);color:#7AAEE0;border:1px solid rgba(45,95,158,.25)}
+.bd-board{background:rgba(200,149,0,.15);color:var(--gold2);border:1px solid rgba(200,149,0,.25)}
+.bd-signed{background:rgba(210,35,42,.12);color:#F07075;border:1px solid rgba(210,35,42,.2)}
+.bd-sec{background:rgba(91,79,196,.15);color:#9B8FE0;border:1px solid rgba(91,79,196,.2)}
+.bd-util{background:rgba(200,149,0,.15);color:#D4AB00;border:1px solid rgba(200,149,0,.2)}
+.bd-ready{background:rgba(30,138,94,.15);color:var(--green2);border:1px solid rgba(30,138,94,.2)}
+.bd-full{background:rgba(30,138,94,.12);color:#3EC98D;border:1px solid rgba(30,138,94,.18)}
+.bd-part{background:rgba(200,149,0,.12);color:#D4AB00;border:1px solid rgba(200,149,0,.18)}
+.bd-usd{background:rgba(45,95,158,.12);color:#7AAEE0;border:1px solid rgba(45,95,158,.18);font-family:var(--font-mono)}
+.bd-zig{background:rgba(200,149,0,.12);color:#D4AB00;border:1px solid rgba(200,149,0,.18);font-family:var(--font-mono)}
+.bd-tob{background:rgba(91,79,196,.15);color:#B0A6F5;border:1px solid rgba(91,79,196,.2)}
 
 /* ═══════════════════════════════════════
    ACTION BUTTONS
 ═══════════════════════════════════════ */
-.ab{padding:4px 9px;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text2);margin-right:3px;transition:all .12s;white-space:nowrap;font-family:var(--font-body)}
+.ab{padding:4px 9px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text2);margin-right:3px;transition:all .12s;white-space:nowrap;font-family:var(--font-body);letter-spacing:.02em}
 .ab:hover{background:var(--card2);color:var(--text)}
-.ab.ap{border-color:rgba(34,212,143,.4);color:var(--green)}.ab.ap:hover{background:rgba(34,212,143,.08)}
-.ab.ed{border-color:rgba(74,144,226,.4);color:#74AAFF}.ab.ed:hover{background:rgba(74,144,226,.08)}
-.ab.db{border-color:rgba(0,201,177,.4);color:var(--teal)}.ab.db:hover{background:rgba(0,201,177,.08)}
-.ab.dl{border-color:rgba(255,77,106,.3);color:var(--red)}.ab.dl:hover{background:rgba(255,77,106,.08)}
-.ab.st{border-color:rgba(240,165,0,.4);color:var(--gold)}.ab.st:hover{background:rgba(240,165,0,.08)}
+.ab.ap{border-color:rgba(30,138,94,.4);color:var(--green2)}.ab.ap:hover{background:rgba(30,138,94,.08)}
+.ab.ed{border-color:rgba(45,95,158,.4);color:var(--cbz-blue2)}.ab.ed:hover{background:rgba(45,95,158,.08)}
+.ab.db{border-color:rgba(210,35,42,.35);color:var(--cbz-red)}.ab.db:hover{background:rgba(210,35,42,.08)}
+.ab.dl{border-color:rgba(210,35,42,.25);color:#E08085}.ab.dl:hover{background:rgba(210,35,42,.07)}
+.ab.st{border-color:rgba(200,149,0,.4);color:var(--gold2)}.ab.st:hover{background:rgba(200,149,0,.08)}
 
 /* ═══════════════════════════════════════
    FORMS
@@ -183,51 +318,53 @@ tr:hover td{background:rgba(255,255,255,0.02)}
 input[type=text],input[type=number],input[type=date],input[type=password],select,textarea{
   width:100%;padding:9px 12px;border-radius:var(--r);border:1px solid var(--border);
   background:rgba(255,255,255,0.04);color:var(--text);font-size:13px;font-family:var(--font-body);outline:none;transition:border-color .15s}
-input:focus,select:focus,textarea:focus{border-color:var(--teal);background:rgba(0,201,177,.03)}
+input:focus,select:focus,textarea:focus{border-color:var(--cbz-red);background:rgba(210,35,42,.03)}
 select option{background:var(--bg2);color:var(--text)}
 textarea{resize:vertical;min-height:58px}
 .ss-wrap{margin-bottom:20px}
 .ss-lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:6px}
-select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:500;cursor:pointer;font-family:var(--font-head)}
+select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:500;cursor:pointer;font-family:var(--font-body)}
 .note{font-size:11px;color:var(--text3);margin-top:3px}
 
 /* ═══════════════════════════════════════
    INNER TABS
 ═══════════════════════════════════════ */
-.itabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:16px}
-.itab{padding:9px 16px;cursor:pointer;font-size:13px;color:var(--text3);border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;transition:all .12s;font-family:var(--font-body)}
+.itabs{display:flex;border-bottom:2px solid var(--border);margin-bottom:16px;gap:0}
+.itab{padding:9px 18px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text3);border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;margin-bottom:-2px;transition:all .12s;font-family:var(--font-body)}
 .itab:hover:not(.active){color:var(--text)}
-.itab.active{color:var(--teal);border-bottom-color:var(--teal);font-weight:500}
+.itab.active{color:var(--cbz-red);border-bottom-color:var(--cbz-red);font-weight:700}
 .ipanel{display:none}.ipanel.active{display:block}
 
 /* ═══════════════════════════════════════
    FILTER ROW
 ═══════════════════════════════════════ */
 .frow{display:flex;gap:9px;align-items:center;margin-bottom:13px;flex-wrap:wrap}
-.srch{padding:8px 12px;border-radius:var(--r);border:1px solid var(--border);background:var(--card);color:var(--text);font-size:13px;font-family:var(--font-body);outline:none;min-width:190px}
-.srch:focus{border-color:var(--teal)}
-.fsel{padding:7px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--card);color:var(--text);font-size:12px;font-family:var(--font-body);outline:none}
-.fsel:focus{border-color:var(--teal)}
+.srch{padding:8px 12px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;font-family:var(--font-body);outline:none;min-width:190px}
+.srch:focus{border-color:var(--cbz-red)}
+.fsel{padding:7px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:12px;font-family:var(--font-body);outline:none}
+.fsel:focus{border-color:var(--cbz-red)}
 
 /* ═══════════════════════════════════════
    MODAL
 ═══════════════════════════════════════ */
-.mo{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:none;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
 .mo.open{display:flex}
-.mb{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r3);padding:28px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto}
-.mt{font-family:var(--font-head);font-size:17px;font-weight:700;margin-bottom:4px}
-.ms{font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.5}
+.mb{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r3);padding:0;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.6)}
+.mb-hd{background:var(--cbz-navy);padding:20px 24px 18px;border-radius:var(--r3) var(--r3) 0 0;border-bottom:1px solid rgba(255,255,255,0.08)}
+.mt{font-family:var(--font-head);font-size:16px;font-weight:700;margin-bottom:3px;color:#fff}
+.ms{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.4}
+.mb-body{padding:20px 24px}
 .ma{display:flex;gap:9px;margin-top:20px;justify-content:flex-end}
 .mbtn{padding:9px 20px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--card2);color:var(--text);transition:all .12s;font-family:var(--font-body)}
 .mbtn:hover{background:var(--card)}
-.mbtn.p{background:var(--teal);border-color:var(--teal);color:var(--bg);font-weight:700}.mbtn.p:hover{background:var(--teal2)}
-.mbtn.d{background:var(--red);border-color:var(--red);color:#fff}.mbtn.d:hover{opacity:.85}
+.mbtn.p{background:var(--cbz-red);border-color:var(--cbz-red);color:#fff;font-weight:700}.mbtn.p:hover{background:var(--cbz-red2)}
+.mbtn.d{background:rgba(210,35,42,0.15);border-color:rgba(210,35,42,0.4);color:#F07075}.mbtn.d:hover{background:rgba(210,35,42,0.25)}
 .choice-wrap{display:flex;flex-direction:column;gap:9px;margin:8px 0}
-.cho{padding:13px 16px;border-radius:var(--r);border:1px solid var(--border);cursor:pointer;transition:all .12s;font-size:13px}
-.cho:hover{border-color:var(--teal);background:rgba(0,201,177,.06)}
-.cho.sel{border-color:var(--teal);background:rgba(0,201,177,.1);color:var(--teal)}
+.cho{padding:13px 16px;border-radius:var(--r);border:1px solid var(--border);cursor:pointer;transition:all .12s;font-size:13px;font-weight:500}
+.cho:hover{border-color:var(--cbz-red);background:rgba(210,35,42,.05)}
+.cho.sel{border-color:var(--cbz-red);background:rgba(210,35,42,.1);color:var(--cbz-red)}
 .cho .ch-sub{font-size:11px;color:var(--text3);margin-top:3px;font-weight:400}
-.cho.sel .ch-sub{color:rgba(0,201,177,.6)}
+.cho.sel .ch-sub{color:rgba(210,35,42,.6)}
 .pi{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
 .pi.show{display:block}
 
@@ -237,8 +374,8 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
 .dr{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border)}
 .dr:last-child{border-bottom:none}
 .dn{width:155px;font-size:12px;color:var(--text2);flex-shrink:0}
-.dt{flex:1;background:rgba(255,255,255,0.05);border-radius:4px;height:7px;overflow:hidden}
-.df{height:100%;background:var(--teal);border-radius:4px;transition:width .5s}
+.dt{flex:1;background:rgba(255,255,255,0.05);border-radius:3px;height:6px;overflow:hidden}
+.df{height:100%;background:var(--cbz-red);border-radius:3px;transition:width .5s}
 .dv{width:90px;font-size:11px;font-family:var(--font-mono);color:var(--text3);text-align:right}
 
 /* ═══════════════════════════════════════
@@ -246,58 +383,59 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
 ═══════════════════════════════════════ */
 .exp-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
 .exp-row:last-child{border-bottom:none}
-.exp-rank{width:24px;height:24px;border-radius:6px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:var(--font-head);color:var(--teal);flex-shrink:0}
-.exp-name{flex:1;font-size:13px;font-weight:500}
+.exp-rank{width:24px;height:24px;border-radius:5px;background:var(--cbz-red);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:var(--font-head);color:#fff;flex-shrink:0}
+.exp-name{flex:1;font-size:13px;font-weight:600}
 .exp-stage{font-size:11px;color:var(--text3)}
-.exp-val{font-family:var(--font-mono);font-size:12px;color:var(--teal);text-align:right}
+.exp-val{font-family:var(--font-mono);font-size:12px;color:var(--cbz-red);text-align:right;font-weight:600}
 
 /* ═══════════════════════════════════════
    TOAST
 ═══════════════════════════════════════ */
-#toast{position:fixed;bottom:22px;right:22px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:12px 18px;font-size:13px;z-index:200;opacity:0;transform:translateY(8px);transition:all .22s;pointer-events:none;max-width:320px}
+#toast{position:fixed;bottom:22px;right:22px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r2);padding:12px 18px;font-size:13px;z-index:200;opacity:0;transform:translateY(8px);transition:all .22s;pointer-events:none;max-width:320px;box-shadow:0 8px 32px rgba(0,0,0,.4)}
 #toast.show{opacity:1;transform:translateY(0)}
-#toast.s{border-left:3px solid var(--teal)}
-#toast.e{border-left:3px solid var(--red)}
+#toast.s{border-left:3px solid var(--green2)}
+#toast.e{border-left:3px solid var(--cbz-red)}
 #toast.i{border-left:3px solid var(--gold)}
 
 /* ═══════════════════════════════════════
-   AI CHAT
+   AI CHAT PANEL
 ═══════════════════════════════════════ */
-#ai-fab{position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;background:var(--teal);border:none;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:22px;z-index:90;box-shadow:0 4px 20px rgba(0,201,177,.35);transition:transform .15s}
-#ai-fab:hover{transform:scale(1.08)}
-#ai-panel{position:fixed;bottom:88px;right:24px;width:360px;height:480px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r3);display:none;flex-direction:column;z-index:91;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+#ai-fab{position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;background:var(--cbz-red);border:2px solid rgba(255,255,255,0.15);cursor:pointer;display:none;align-items:center;justify-content:center;z-index:90;box-shadow:0 4px 20px rgba(210,35,42,.4);transition:transform .15s,box-shadow .15s;overflow:hidden}
+#ai-fab:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(210,35,42,.5)}
+#ai-fab svg{width:24px;height:24px}
+#ai-panel{position:fixed;bottom:88px;right:24px;width:370px;height:490px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r3);display:none;flex-direction:column;z-index:91;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.55)}
 #ai-panel.open{display:flex}
-.ai-hdr{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--bg3)}
-.ai-av{width:32px;height:32px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--bg);flex-shrink:0}
-.ai-name{font-family:var(--font-head);font-size:13px;font-weight:700}
-.ai-status{font-size:10px;color:var(--green)}
-.ai-cls{margin-left:auto;background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;transition:color .15s}
-.ai-cls:hover{color:var(--text)}
-.ai-msgs{flex:1;overflow-y:auto;padding:14px 14px 8px;display:flex;flex-direction:column;gap:10px}
-.ai-msg{padding:10px 13px;border-radius:12px;font-size:13px;line-height:1.5;max-width:88%}
-.ai-msg.bot{background:var(--bg3);border:1px solid var(--border);border-bottom-left-radius:3px;align-self:flex-start}
-.ai-msg.user{background:var(--teal);color:var(--bg);border-bottom-right-radius:3px;align-self:flex-end;font-weight:500}
-.ai-inp-wrap{padding:12px 14px;border-top:1px solid var(--border);display:flex;gap:8px}
-.ai-inp{flex:1;padding:9px 12px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;font-family:var(--font-body);outline:none}
-.ai-inp:focus{border-color:var(--teal)}
-.ai-send{padding:9px 14px;border-radius:var(--r);background:var(--teal);border:none;color:var(--bg);font-size:12px;font-weight:700;cursor:pointer;transition:background .15s;font-family:var(--font-head)}
-.ai-send:hover{background:var(--teal2)}
+.ai-hdr{display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--cbz-navy);border-bottom:1px solid rgba(255,255,255,0.08);flex-shrink:0}
+.ai-av{width:34px;height:34px;border-radius:50%;background:var(--cbz-red);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ai-av svg{width:18px;height:18px}
+.ai-name{font-family:var(--font-head);font-size:13px;font-weight:700;color:#fff}
+.ai-status{font-size:10px;color:rgba(255,255,255,0.5);margin-top:1px}
+.ai-cls{margin-left:auto;background:none;border:none;color:rgba(255,255,255,0.4);cursor:pointer;font-size:18px;line-height:1;padding:2px;transition:color .12s}
+.ai-cls:hover{color:#fff}
+.ai-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.ai-msg{max-width:88%;padding:10px 13px;border-radius:12px;font-size:13px;line-height:1.55}
+.ai-msg.user{background:var(--cbz-red);color:#fff;align-self:flex-end;border-radius:12px 12px 3px 12px}
+.ai-msg.bot{background:var(--bg3);border:1px solid var(--border);color:var(--text);align-self:flex-start;border-radius:12px 12px 12px 3px}
+.ai-msg.bot h2,.ai-msg.bot h3,.ai-msg.bot h4{color:var(--cbz-red);margin-top:8px}
+.ai-inp-wrap{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--border);flex-shrink:0}
+.ai-inp{flex:1;padding:9px 12px;border-radius:var(--r);border:1px solid var(--border);background:rgba(255,255,255,0.05);color:var(--text);font-size:13px;font-family:var(--font-body);outline:none}
+.ai-inp:focus{border-color:var(--cbz-red)}
+.ai-send{padding:9px 16px;border-radius:var(--r);background:var(--cbz-red);border:none;color:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font-body);transition:background .12s}
+.ai-send:hover{background:var(--cbz-red2)}
 
 /* ═══════════════════════════════════════
-   FINANCE SECTION
+   FINANCE SPECIFIC
 ═══════════════════════════════════════ */
-.fin-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px}
-.fin-result{background:var(--teal3);border:1px solid rgba(0,201,177,.25);border-radius:var(--r2);padding:18px 20px;margin-bottom:20px}
-.fin-res-lbl{font-size:11px;color:var(--teal);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
-.fin-res-val{font-family:var(--font-head);font-size:28px;font-weight:800;color:var(--teal)}
-.fin-res-sub{font-size:12px;color:var(--text3);margin-top:6px}
+.fin-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:16px}
+.fin-result{background:rgba(210,35,42,.06);border:1px solid rgba(210,35,42,.2);border-radius:var(--r);padding:16px;text-align:center;border-left:4px solid var(--cbz-red)}
+.fin-res-lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:6px}
+.fin-res-val{font-family:var(--font-head);font-size:28px;font-weight:900;color:var(--cbz-red);line-height:1}
+.fin-res-sub{font-size:11px;color:var(--text3);margin-top:5px}
 
 /* ═══════════════════════════════════════
-   SCROLLBAR
+   EXEC-ONLY — Hidden by default
 ═══════════════════════════════════════ */
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--text3);border-radius:10px}
+.exec-only{display:none!important}
 </style>
 </head>
 <body>
@@ -305,15 +443,34 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
 <!-- LOGIN -->
 <div id="login">
   <div class="lc">
-    <div class="l-logo">
-      <div class="l-mark">DP</div>
-      <div><div class="l-title">Disbursement Pipeline</div><div class="l-sub">Corporate Banking Division</div></div>
+    <div class="lc-banner">
+      <div class="lc-logo">
+        <div class="lc-logo-img">
+          <!-- CBZ Holdings Logo SVG -->
+          <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="30" cy="30" r="28" fill="#D2232A"/>
+            <text x="30" y="36" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" font-weight="900" fill="white">cbz</text>
+            <text x="80" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#1B2E5E">Holdings</text>
+            <line x1="56" y1="8" x2="56" y2="52" stroke="#1B2E5E" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="lc-brand">
+          <div class="lc-brand-name">CBZ Holdings</div>
+          <div class="lc-brand-sub">Disbursement Pipeline System</div>
+        </div>
+      </div>
+      <div class="lc-divider">Corporate Banking Division</div>
     </div>
-    <div id="l-err" class="l-err"></div>
-    <div class="fg"><label>Username</label><input type="text" id="lu" placeholder="e.g. admin" autocomplete="username"></div>
-    <div class="fg"><label>Password</label><input type="password" id="lp" placeholder="••••••••" autocomplete="current-password"></div>
-    <button class="l-btn" onclick="doLogin()">Sign In</button>
-    
+    <div class="lc-body">
+      <div id="l-err" class="l-err"></div>
+      <div class="fg"><label>Username</label><input type="text" id="lu" placeholder="Enter username" autocomplete="username"></div>
+      <div class="fg"><label>Password</label><input type="password" id="lp" placeholder="••••••••" autocomplete="current-password"></div>
+      <button class="l-btn" onclick="doLogin()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        Sign In
+      </button>
+      <div class="l-hint">CBZ Holdings — Authorised Personnel Only</div>
+    </div>
   </div>
 </div>
 
@@ -321,9 +478,19 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
 <div id="app">
   <div id="sidebar">
     <div class="sb-top">
-      <div class="sb-logo">
-        <div class="sb-mark">DP</div>
-        <div><div class="sb-brand">Disbursement Pipeline</div><div class="sb-div">Corporate Banking</div></div>
+      <div class="sb-logo-wrap">
+        <div class="sb-logo-img">
+          <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="30" cy="30" r="28" fill="#D2232A"/>
+            <text x="30" y="36" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" font-weight="900" fill="white">cbz</text>
+            <text x="80" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="white">Holdings</text>
+            <line x1="56" y1="10" x2="56" y2="50" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <div class="sb-brand-wrap">
+          <div class="sb-brand">Disbursement Pipeline</div>
+          <div class="sb-div">Corporate Banking</div>
+        </div>
       </div>
     </div>
     <nav class="sb-nav">
@@ -333,8 +500,8 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
       <div class="si" data-p="rm-entry"><span class="ico">＋</span>RM Entry</div>
       <div class="si" data-p="assessment"><span class="ico">◎</span>Assessment Stage<span class="si-badge" id="b-assess">0</span></div>
       <div class="si" data-p="near"><span class="ico">◷</span>Near Drawdown<span class="si-badge g" id="b-near">0</span></div>
-      <div class="si" data-p="ready"><span class="ico">◉</span>Ready for Drawdown<span class="si-badge" id="b-ready">0</span></div>
-      <div class="si" data-p="tobacco"><span class="ico">◆</span>Tobacco Merchants<span class="si-badge" id="b-tob" style="background:var(--purple)">0</span></div>
+      <div class="si" data-p="ready"><span class="ico">◉</span>Ready for Drawdown<span class="si-badge b" id="b-ready">0</span></div>
+      <div class="si" data-p="tobacco"><span class="ico">◆</span>Tobacco Merchants<span class="si-badge" id="b-tob">0</span></div>
       <div class="sb-sec">Records</div>
       <div class="si" data-p="disbursements"><span class="ico">✓</span>Disbursements<span class="si-badge" id="b-disb">0</span></div>
       <div class="sb-sec">Operations</div>
@@ -359,23 +526,23 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
     </div>
     <div id="content">
 
-      <!-- ──────────────────── DASHBOARD ──────────────────── -->
+      <!-- DASHBOARD -->
       <div class="page" id="pg-dashboard">
         <div class="mg" id="d-metrics"></div>
         <div class="chart-row">
           <div class="card mb20">
             <div class="card-hd">
-              <div><div class="card-h">Disbursements Trend</div><div class="card-sub">Monthly & Yearly performance</div></div>
+              <div><div class="card-h">Disbursements Trend</div><div class="card-sub">Monthly &amp; Yearly performance</div></div>
               <div style="display:flex;gap:8px;align-items:center">
                 <select class="fsel" id="d-period" onchange="renderDash()"><option value="monthly">Monthly</option><option value="yearly">Yearly</option></select>
                 <select class="fsel" id="d-year" onchange="renderDash()"></select>
               </div>
             </div>
-            <div class="cw"><canvas id="chartLine" role="img" aria-label="Disbursements trend">Disbursement trend chart.</canvas></div>
+            <div class="cw"><canvas id="chartLine"></canvas></div>
           </div>
           <div class="card mb20">
             <div class="card-hd"><div><div class="card-h">Pipeline Stages</div><div class="card-sub">Current distribution</div></div></div>
-            <div class="cw"><canvas id="chartBar" role="img" aria-label="Pipeline stages">Pipeline stage chart.</canvas></div>
+            <div class="cw"><canvas id="chartBar"></canvas></div>
           </div>
         </div>
         <div style="display:grid;grid-template-columns:3fr 2fr;gap:16px;margin-bottom:20px">
@@ -397,7 +564,7 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
         </div>
       </div>
 
-      <!-- ──────────────────── RM ENTRY ──────────────────── -->
+      <!-- RM ENTRY -->
       <div class="page" id="pg-rm-entry">
         <div class="card">
           <div class="card-hd mb16"><div><div class="card-h">New Pipeline Entry</div><div class="card-sub">Select stage then complete the required fields</div></div></div>
@@ -415,14 +582,14 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
         </div>
       </div>
 
-      <!-- ──────────────────── ASSESSMENT ──────────────────── -->
+      <!-- ASSESSMENT -->
       <div class="page" id="pg-assessment">
         <div class="itabs">
           <button class="itab active" data-tab="exco" data-sec="assessment">Awaiting EXCO Approval <span id="tc-exco"></span></button>
           <button class="itab" data-tab="board" data-sec="assessment">Awaiting Board Approval <span id="tc-board"></span></button>
         </div>
         <div class="ipanel active" id="ip-exco">
-          <div class="frow"><input class="srch" type="text" placeholder="Search…" oninput="filterT(this,'tb-exco')"><select class="fsel" onchange="filterDept(this,'tb-exco')"><option value="">All Depts</option><option>Mining</option><option>Business Banking</option><option>Manufacturing</option><option>Institutional Banking</option><option>Services Cluster</option><option>Agribusiness</option></select></div>
+          <div class="frow"><input class="srch" type="text" placeholder="Search client or RM…" oninput="filterT(this,'tb-exco')"><select class="fsel" onchange="filterDept(this,'tb-exco')"><option value="">All Depts</option><option>Mining</option><option>Business Banking</option><option>Manufacturing</option><option>Institutional Banking</option><option>Services Cluster</option><option>Agribusiness</option></select></div>
           <div class="tw"><table><thead><tr><th>Client</th><th>RM Code</th><th>RM Name</th><th>Dept</th><th>Type</th><th>Curr.</th><th>Facility Limit</th><th>Drawdown Pending</th><th>Rate</th><th>Comm.</th><th>Comments</th><th>Actions</th></tr></thead><tbody id="tb-exco"></tbody></table></div>
         </div>
         <div class="ipanel" id="ip-board">
@@ -431,7 +598,7 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
         </div>
       </div>
 
-      <!-- ──────────────────── NEAR DRAWDOWN ──────────────────── -->
+      <!-- NEAR DRAWDOWN -->
       <div class="page" id="pg-near">
         <div class="itabs">
           <button class="itab active" data-tab="signed" data-sec="near">Awaiting Signed Offer Letters <span id="tc-signed"></span></button>
@@ -443,19 +610,19 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
         <div class="ipanel" id="ip-util"><div class="frow"><input class="srch" type="text" placeholder="Search…" oninput="filterT(this,'tb-util')"></div><div class="tw"><table><thead><tr><th>Client</th><th>RM</th><th>Dept</th><th>Date Approved</th><th>Exp. Date</th><th>Type</th><th>Curr.</th><th>Facility Limit</th><th>Drawdown Pending</th><th>Rate</th><th>Comm.</th><th>Comments</th><th>Actions</th></tr></thead><tbody id="tb-util"></tbody></table></div></div>
       </div>
 
-      <!-- ──────────────────── READY DRAWDOWN ──────────────────── -->
+      <!-- READY FOR DRAWDOWN -->
       <div class="page" id="pg-ready">
         <div class="frow"><input class="srch" type="text" placeholder="Search…" oninput="filterT(this,'tb-ready')"><select class="fsel" onchange="filterDept(this,'tb-ready')"><option value="">All Depts</option><option>Mining</option><option>Business Banking</option><option>Manufacturing</option><option>Institutional Banking</option><option>Services Cluster</option><option>Agribusiness</option></select></div>
         <div class="tw"><table><thead><tr><th>Client</th><th>RM</th><th>Dept</th><th>Date Approved</th><th>Exp. Date</th><th>Type</th><th>Curr.</th><th>Facility Limit</th><th>Drawdown Pending</th><th>Rate</th><th>Comm.</th><th>Comments</th><th>Actions</th></tr></thead><tbody id="tb-ready"></tbody></table></div>
       </div>
 
-      <!-- ──────────────────── TOBACCO MERCHANTS ──────────────────── -->
+      <!-- TOBACCO MERCHANTS -->
       <div class="page" id="pg-tobacco">
         <div class="frow"><input class="srch" type="text" placeholder="Search…" oninput="filterT(this,'tb-tob')"></div>
         <div class="tw"><table><thead><tr><th>Client</th><th>Facility Limit</th><th>Interest Rate</th><th>Facility Fees</th><th>Drawdown Pending</th><th>Available Headroom</th><th>Actions</th></tr></thead><tbody id="tb-tob"></tbody></table></div>
       </div>
 
-      <!-- ──────────────────── DISBURSEMENTS ──────────────────── -->
+      <!-- DISBURSEMENTS -->
       <div class="page" id="pg-disbursements">
         <div class="mg" id="disb-metrics"></div>
         <div class="itabs">
@@ -467,7 +634,7 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
             <input class="srch" type="text" placeholder="Search…" oninput="filterT(this,'tb-disb')">
             <select class="fsel" onchange="filterDept(this,'tb-disb')"><option value="">All Depts</option><option>Mining</option><option>Business Banking</option><option>Manufacturing</option><option>Institutional Banking</option><option>Services Cluster</option><option>Agribusiness</option></select>
             <select class="fsel" onchange="filterAttr(this,'tb-disb','currency')"><option value="">All Currencies</option><option>USD</option><option>ZIG</option></select>
-            <button class="hbtn" onclick="clearViewDisb('tb-disb')" title="Hide all rows from current view (data kept in DB)">Clear View</button>
+            <button class="hbtn" onclick="clearViewDisb('tb-disb')">Clear View</button>
           </div>
           <div class="tw"><table><thead><tr><th>Client</th><th>RM Code</th><th>RM Name</th><th>Dept</th><th>Date Approved</th><th>Type</th><th>Section</th><th>Curr.</th><th>Facility Limit</th><th>Amount Disbursed</th><th>Rate</th><th>Comm.</th><th>Date Disbursed</th><th>Status</th></tr></thead><tbody id="tb-disb"></tbody></table></div>
         </div>
@@ -477,7 +644,7 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
         </div>
       </div>
 
-      <!-- ──────────────────── FINANCE ──────────────────── -->
+      <!-- FINANCE -->
       <div class="page" id="pg-finance">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
           <div class="card">
@@ -498,8 +665,8 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
             </div>
           </div>
           <div class="card">
-            <div class="card-hd mb16"><div><div class="card-h">Asset Movement</div><div class="card-sub">Weekly projected balance trend</div></div></div>
-            <div class="cw"><canvas id="chartFin" role="img" aria-label="Asset movement">Asset movement chart.</canvas></div>
+            <div class="card-hd mb16"><div><div class="card-h">Asset Movement</div><div class="card-sub">Projected balance trend</div></div></div>
+            <div class="cw"><canvas id="chartFin"></canvas></div>
           </div>
         </div>
         <div class="card" style="margin-top:16px">
@@ -508,7 +675,7 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
         </div>
       </div>
 
-      <!-- ──────────────────── AUDIT ──────────────────── -->
+      <!-- AUDIT -->
       <div class="page" id="pg-audit">
         <div class="card">
           <div class="card-hd mb16"><div><div class="card-h">Audit Log</div><div class="card-sub">Last 100 system actions</div></div></div>
@@ -516,7 +683,7 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
         </div>
       </div>
 
-      <!-- ──────────────────── USERS ──────────────────── -->
+      <!-- MANAGE USERS -->
       <div class="page" id="pg-users">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
           <div class="card">
@@ -533,7 +700,7 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
           </div>
           <div class="card">
             <div class="card-hd mb16"><div><div class="card-h">Current Users</div></div></div>
-            <div class="tw"><table><thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Dept</th></tr></thead><tbody id="tb-users"></tbody></table></div>
+            <div class="tw"><table><thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Dept</th><th></th></tr></thead><tbody id="tb-users"></tbody></table></div>
           </div>
         </div>
       </div>
@@ -545,18 +712,30 @@ select.ss{padding:12px 14px;border-radius:var(--r2);font-size:14px;font-weight:5
 <!-- MODAL -->
 <div class="mo" id="modal">
   <div class="mb">
-    <div class="mt" id="m-title"></div>
-    <div class="ms" id="m-sub"></div>
-    <div id="m-body"></div>
-    <div class="ma" id="m-actions"></div>
+    <div class="mb-hd">
+      <div class="mt" id="m-title"></div>
+      <div class="ms" id="m-sub"></div>
+    </div>
+    <div class="mb-body">
+      <div id="m-body"></div>
+      <div class="ma" id="m-actions"></div>
+    </div>
   </div>
 </div>
 
-<!-- AI FAB + PANEL -->
-<button id="ai-fab" onclick="toggleAI()">🤖</button>
+<!-- AI ASSISTANT FAB + PANEL -->
+<button id="ai-fab" onclick="toggleAI()" title="Pipeline Assistant">
+  <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+  </svg>
+</button>
 <div id="ai-panel">
   <div class="ai-hdr">
-    <div class="ai-av">🤖</div>
+    <div class="ai-av">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+      </svg>
+    </div>
     <div><div class="ai-name">Pipeline Assistant</div><div class="ai-status">● Online</div></div>
     <button class="ai-cls" onclick="toggleAI()">✕</button>
   </div>
@@ -771,10 +950,10 @@ async function renderDash() {
     zigData = labels.map(y => d.filter(r => r.currency === 'ZIG' && r.date_disbursed?.startsWith(y)).reduce((s, r) => s + (r.amount_disbursed || 0), 0));
   }
   if (lineChart) lineChart.destroy();
-  lineChart = new Chart($('chartLine'), { type: 'line', data: { labels, datasets: [{ label: 'USD', data: usdData, borderColor: '#00C9B1', backgroundColor: 'rgba(0,201,177,0.08)', tension: 0.4, pointRadius: 4, pointBackgroundColor: '#00C9B1', fill: true }, { label: 'ZIG', data: zigData, borderColor: '#F0A500', backgroundColor: 'rgba(240,165,0,0.08)', tension: 0.4, pointRadius: 4, pointBackgroundColor: '#F0A500', fill: true }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#4A5A80', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.04)' } }, y: { ticks: { color: '#4A5A80', font: { size: 11 }, callback: v => v >= 1e6 ? '$' + (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? '$' + Math.round(v / 1e3) + 'K' : '$' + v }, grid: { color: 'rgba(255,255,255,0.06)' } } } } });
+  lineChart = new Chart($('chartLine'), { type: 'line', data: { labels, datasets: [{ label: 'USD', data: usdData, borderColor: '#D2232A', backgroundColor: 'rgba(210,35,42,0.07)', tension: 0.4, pointRadius: 4, pointBackgroundColor: '#D2232A', fill: true }, { label: 'ZIG', data: zigData, borderColor: '#C89500', backgroundColor: 'rgba(240,165,0,0.08)', tension: 0.4, pointRadius: 4, pointBackgroundColor: '#C89500', fill: true }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#4A5A80', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.04)' } }, y: { ticks: { color: '#4A5A80', font: { size: 11 }, callback: v => v >= 1e6 ? '$' + (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? '$' + Math.round(v / 1e3) + 'K' : '$' + v }, grid: { color: 'rgba(255,255,255,0.06)' } } } } });
 
   if (barChart) barChart.destroy();
-  barChart = new Chart($('chartBar'), { type: 'bar', data: { labels: ['Assessment', 'Near DD', 'Ready', 'Tobacco', 'Disbursed'], datasets: [{ label: 'Count', data: [p.filter(r => r.stage === 'assessment').length, p.filter(r => r.stage === 'near').length, p.filter(r => r.stage === 'ready').length, tob.length, d.length], backgroundColor: ['#4A90E2', '#F0A500', '#22D48F', '#9B72FF', '#00C9B1'], borderRadius: 6, borderSkipped: false }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#4A5A80', font: { size: 11 } }, grid: { display: false } }, y: { ticks: { color: '#4A5A80', font: { size: 11 }, stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.06)' } } } } });
+  barChart = new Chart($('chartBar'), { type: 'bar', data: { labels: ['Assessment', 'Near DD', 'Ready', 'Tobacco', 'Disbursed'], datasets: [{ label: 'Count', data: [p.filter(r => r.stage === 'assessment').length, p.filter(r => r.stage === 'near').length, p.filter(r => r.stage === 'ready').length, tob.length, d.length], backgroundColor: ['#2D5F9E', '#C89500', '#1E8A5E', '#5B4FC4', '#D2232A'], borderRadius: 6, borderSkipped: false }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#4A5A80', font: { size: 11 } }, grid: { display: false } }, y: { ticks: { color: '#4A5A80', font: { size: 11 }, stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.06)' } } } } });
 
   const depts = ['Mining','Business Banking','Manufacturing','Institutional Banking','Services Cluster','Agribusiness'];
   const all = [...p, ...d];
@@ -1091,7 +1270,7 @@ function tobDisburse(id, client, drawdown, facilityLimit) {
     <div class="pi" id="pi-wrap">
       <label class="fl" style="margin-top:4px">Amount Disbursed (USD)</label>
       <input type="number" id="pi-amt" placeholder="Enter amount" style="margin-top:6px">
-      <div class="note" style="margin-top:4px">Available Headroom: <span id="pi-rem" style="color:var(--teal)">—</span></div>
+      <div class="note" style="margin-top:4px">Available Headroom: <span id="pi-rem" style="color:var(--cbz-red)">—</span></div>
     </div>`,
     [{ label: 'Confirm', cls: 'p', fn: `confirmTobDisburse('${id}','${client}',${drawdown},${facilityLimit})` }, { label: 'Cancel', cls: '', fn: 'closeModal()' }]
   );
@@ -1150,7 +1329,7 @@ async function renderDisbursements() {
     <td class="tm">${r.date_approved || '—'}</td><td>${r.facility_type || '—'}</td><td>${r.section || '—'}</td>
     <td><span class="bd ${r.currency === 'USD' ? 'bd-usd' : 'bd-zig'}">${r.currency}</span></td>
     <td class="tm">${fmt(r.facility_limit, r.currency)}</td>
-    <td class="tm" style="color:var(--teal);font-weight:500">${fmt(r.amount_disbursed, r.currency)}</td>
+    <td class="tm" style="color:var(--cbz-red);font-weight:500">${fmt(r.amount_disbursed, r.currency)}</td>
     <td class="tm">${r.rate}%</td><td class="tm">${r.comm}%</td>
     <td class="tm">${r.date_disbursed}</td>
     <td><span class="bd ${r.status === 'Fully Disbursed' ? 'bd-full' : 'bd-part'}">${r.status}</span></td>
@@ -1158,7 +1337,7 @@ async function renderDisbursements() {
 
   $('tb-disb-tob').innerHTML = tDisb.length ? tDisb.map(r => `<tr data-search="${r.client.toLowerCase()}">
     <td class="tn">${r.client}</td><td class="tm">${fmt(r.facility_limit, 'USD')}</td>
-    <td class="tm" style="color:var(--teal)">${fmt(r.amount_disbursed, 'USD')}</td>
+    <td class="tm" style="color:var(--cbz-red)">${fmt(r.amount_disbursed, 'USD')}</td>
     <td class="tm" style="color:var(--green)">${fmt(r.headroom, 'USD')}</td>
     <td class="tm">${r.date_disbursed}</td>
     <td><span class="bd ${r.status === 'Fully Disbursed' ? 'bd-full' : 'bd-part'}">${r.status}</span></td>
@@ -1210,7 +1389,7 @@ function clearFinance() { $('fi-bal').value = ''; $('fi-rep').value = ''; $('fi-
 
 function renderFinChart(bal, rep, proj, bud) {
   if (finChart) finChart.destroy();
-  finChart = new Chart($('chartFin'), { type: 'line', data: { labels: ['Current','Post-Repayment','Projected','Budget'], datasets: [{ label: 'USD', data: [bal, bal - rep, proj, bud], borderColor: '#00C9B1', backgroundColor: 'rgba(0,201,177,0.08)', tension: 0.4, pointRadius: 5, pointBackgroundColor: '#00C9B1', fill: true }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#4A5A80', font: { size: 11 } }, grid: { display: false } }, y: { ticks: { color: '#4A5A80', font: { size: 11 }, callback: v => fmtM(v) }, grid: { color: 'rgba(255,255,255,0.06)' } } } } });
+  finChart = new Chart($('chartFin'), { type: 'line', data: { labels: ['Current','Post-Repayment','Projected','Budget'], datasets: [{ label: 'USD', data: [bal, bal - rep, proj, bud], borderColor: '#D2232A', backgroundColor: 'rgba(210,35,42,0.07)', tension: 0.4, pointRadius: 5, pointBackgroundColor: '#D2232A', fill: true }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#4A5A80', font: { size: 11 } }, grid: { display: false } }, y: { ticks: { color: '#4A5A80', font: { size: 11 }, callback: v => fmtM(v) }, grid: { color: 'rgba(255,255,255,0.06)' } } } } });
 }
 
 async function renderFinance() {
@@ -1219,7 +1398,7 @@ async function renderFinance() {
   $('tb-finance').innerHTML = (rows || []).length ? rows.map(r => `<tr>
     <td class="tm">${r.record_date}</td><td class="tm">${fmt(r.bal,'USD')}</td><td class="tm">${fmt(r.rep,'USD')}</td>
     <td class="tm">${fmt(r.bud,'USD')}</td><td class="tm" style="color:var(--gold)">${fmt(r.exp_disb,'USD')}</td>
-    <td class="tm" style="color:var(--teal);font-weight:500">${fmt(r.proj,'USD')}</td>
+    <td class="tm" style="color:var(--cbz-red);font-weight:500">${fmt(r.proj,'USD')}</td>
   </tr>`).join('') : `<tr class="te"><td colspan="6">No finance records saved.</td></tr>`;
 }
 
@@ -1256,7 +1435,7 @@ async function renderAudit() {
   $('tb-audit').innerHTML = (rows || []).length ? rows.map(r => `<tr>
     <td class="tm" style="white-space:nowrap">${new Date(r.created_at).toLocaleString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })}</td>
     <td>${r.user_name || '—'}</td>
-    <td><span style="font-family:var(--font-mono);font-size:11px;color:var(--teal)">${r.action}</span></td>
+    <td><span style="font-family:var(--font-mono);font-size:11px;color:var(--cbz-red)">${r.action}</span></td>
     <td style="font-size:12px;color:var(--text3)">${r.entity || '—'}</td>
     <td style="font-size:12px">${r.details || '—'}</td>
   </tr>`).join('') : `<tr class="te"><td colspan="5">No audit entries.</td></tr>`;
@@ -1270,7 +1449,7 @@ async function renderUsers() {
   $('tb-users').innerHTML = (users || []).map(u => `<tr>
     <td class="tn">${u.name}</td>
     <td class="tm" style="font-size:12px">${u.username}</td>
-    <td style="color:var(--teal);font-size:12px;text-transform:capitalize">${u.role}</td>
+    <td style="color:var(--cbz-red);font-size:12px;text-transform:capitalize">${u.role}</td>
     <td style="font-size:12px;color:var(--text3)">${u.dept || '—'}</td>
     <td><button class="ab dl" onclick="deleteUser('${u.id}','${u.username}')">Remove</button></td>
   </tr>`).join('');
@@ -1341,302 +1520,6 @@ function filterDept(sel, tbId) {
 function filterAttr(sel, tbId, attr) {
   const v = sel.value;
   document.querySelectorAll(`#${tbId} tr[data-${attr}]`).forEach(r => { r.style.display = !v || r.dataset[attr] === v ? '' : 'none'; });
-}
-
-/* ══════════════════════════════════════════════════════
-   AI ASSISTANT — Anthropic API (claude-sonnet-4-20250514)
-   Strictly data-source-bound, Markdown responses.
-   ══════════════════════════════════════════════════════ */
-
-// ── SYSTEM PROMPT ─────────────────────────────────────
-// Defines the assistant's strict data-source-only behaviour
-// and enforces concise, Markdown-formatted output.
-const AI_SYSTEM_PROMPT = `You are a customer service assistant for the Disbursement Pipeline System used by the Corporate Banking Division.
-
-Your role is to provide concise, accurate, and specific support based EXCLUSIVELY on the following data source — the system documentation below. Do not speculate, infer, or provide information outside this data source.
-
----
-
-## SYSTEM OVERVIEW
-The Disbursement Pipeline System tracks corporate banking clients from credit approval through to disbursement. It is a WebApp used by Relationship Managers (RMs), SEED officers, and Executives.
-
----
-
-## PIPELINE STAGES
-
-### 1. Assessment Stage
-Clients enter here first after a credit application.
-
-**Sub-stages:**
-- **Awaiting EXCO Approval** — Client pending EXCO Credit Committee sign-off.
-- **Awaiting Board Approval** — Client escalated from EXCO; pending Board approval.
-
-**Actions available:**
-- Approve → moves client to Near Drawdown (Signed Offer Letters sub-stage)
-- Escalate to Board Approval → moves client within Assessment to Board tab
-- Edit entry fields
-- Delete record
-
-**Required fields:** Category, Client Name, RM Code, RM Name, Department, Facility Type, Currency (USD/ZIG), Facility Limit, Drawdown Pending, Interest Rate, Commission Fees (%), Comments (optional)
-
----
-
-### 2. Near Drawdown Stage
-Clients approved and progressing toward disbursement.
-
-**Sub-stages:**
-- **Awaiting Signed Offer Letters** — Approved clients waiting to sign offer letters.
-- **Awaiting Security Perfection** — Security documents being finalised; awaiting Security Certificate from Securities Department.
-- **Awaiting Utilization Request** — Security perfected; awaiting client request to disburse.
-
-**Actions available:**
-- Update → advance to Ready for Drawdown, or move between sub-stages
-- Edit or Delete
-
-**Required fields:** Category, Client Name, RM Code, RM Name, Department, Date Approved, Expected Disbursement Date, Facility Type, Currency, Facility Limit, Drawdown Pending, Interest Rate, Commission Fees (%), Comments
-
----
-
-### 3. Ready for Drawdown Stage
-All conditions met. Client awaits Treasury disbursement.
-
-**Actions available:**
-- Disburse (Fully Disbursed / Not Fully Disbursed / Utilization Request)
-- Edit or Delete
-
-**Required fields:** Same as Near Drawdown (no Category field)
-
----
-
-### 4. Tobacco Merchants
-Parallel section for tobacco facility clients only.
-
-**Fields:** Client Name, Facility Limit, Interest Rate, Facility Fees, Drawdown Pending, Available for Headroom
-
-**Available Headroom** = Facility Limit − Amount Disbursed
-
-**Actions available:** Disburse (Full or Partial), Edit, Delete
-
----
-
-### 5. Disbursements
-Records all completed disbursements.
-
-**Two tabs:**
-- **Corporate Pipeline** — All corporate clients disbursed
-- **Tobacco Merchants** — All tobacco merchants disbursed
-
-**Filters:** Department, Currency (USD/ZIG), Search by name
-
-**"Clear View"** hides rows from the screen only — data is preserved in the database.
-
----
-
-## DASHBOARD (Executive Summary)
-Displays real-time analytics:
-- Total Pipeline value (USD & ZIG)
-- Total Disbursed (USD), This Month disbursements
-- Client counts per stage (Assessment, Near Drawdown, Ready for Drawdown, Tobacco)
-- **Line Chart** — Monthly or Yearly disbursement trends (USD & ZIG)
-- **Bar Chart** — Pipeline stage distribution
-- **Departmental Performance** — Drawdown pending by department
-- **Top Exposure** — Largest active facilities
-- **Recent Disbursements** table
-
-**Departments tracked:** Mining, Business Banking, Manufacturing, Institutional Banking, Services Cluster, Agribusiness
-
----
-
-## RM ENTRY (Input Form)
-Used by RMs, SEED officers to add new pipeline entries.
-
-Steps:
-1. Click **"+ New Entry"** or go to **RM Entry** in the sidebar
-2. Select a stage from the dropdown (Assessment / Near Drawdown / Ready for Drawdown / Tobacco Merchant)
-3. Fill in the required fields for that stage
-4. Click **"Add to Pipeline"**
-
-RM Name and RM Code auto-fill based on the logged-in user.
-
----
-
-## FINANCE SECTION
-Calculates and records monthly asset projections.
-
-**Formula:**
-> Projected Asset Balance = Monthly Asset Balance − Repayments + Expected Disbursements (from Ready for Drawdown)
-
-**Inputs:** Monthly Asset Balance, Repayments (Month), Budget for Month
-
-Results display as a line chart and can be saved as a record.
-
----
-
-## USER ROLES & ACCESS
-| Role | Access |
-|------|--------|
-| Executive | Full access including Audit Log and Manage Users |
-| RM (Relationship Manager) | Pipeline entry, edit, approve, disburse |
-| SEED | Same as RM |
-
----
-
-## MANAGE USERS (Executive Only)
-Executives can add new users with:
-- Full Name, Username, Password, RM Code, Role, Department
-
-Users are stored in the database with hashed passwords.
-
----
-
-## AUDIT LOG (Executive Only)
-Records the last 100 system actions including: logins, creates, updates, deletes, approvals, and disbursements. Shows timestamp, user, action type, entity, and details.
-
----
-
-## CURRENCIES
-- **USD** — US Dollar
-- **ZIG** — Zimbabwe Gold (ZiG)
-
----
-
-## FACILITY TYPES
-Term Loan, Working Capital, Asset Finance, Overdraft, Trade Finance, Pre-Shipment Loan, Post-Shipment Loan, Government Mechanization
-
----
-
-## KEY RULES
-- Totals on the Dashboard use the **Drawdown Pending** column per stage (not Facility Limit)
-- For Tobacco Merchants, the disbursed amount is used for totals
-- Disbursement records are permanent and cannot be deleted
-- "Clear View" on the Disbursements page only hides rows visually — data stays in the database
-- Partial disbursements can remain in Ready for Drawdown (with updated remaining amount) or return to Near Drawdown (Utilization Request sub-stage)
-
----
-
-INSTRUCTIONS:
-- Answer ONLY based on the data source above.
-- If the question cannot be answered from this data source, respond: "I don't have information on that in the system data. Please contact your System Administrator."
-- Be concise and direct. No speculation or opinion.
-- Always respond in Markdown format with headings, bullet points, and lists where appropriate.
-- Insert blank lines between sections for readability.
-- Keep answers brief and to the point.`;
-
-// ── CONVERSATION HISTORY ───────────────────────────────
-// Maintains multi-turn context for follow-up questions
-let aiHistory = [];
-
-// ── MARKDOWN RENDERER ─────────────────────────────────
-// Converts Markdown to safe HTML for display in the chat panel
-function renderMarkdown(md) {
-  return md
-    // Headings
-    .replace(/^### (.+)$/gm, '<h4 style="margin:10px 0 4px;font-size:12px;color:var(--teal);font-family:var(--font-head);text-transform:uppercase;letter-spacing:.06em">$1</h4>')
-    .replace(/^## (.+)$/gm,  '<h3 style="margin:10px 0 4px;font-size:13px;color:var(--teal);font-family:var(--font-head)">$1</h3>')
-    .replace(/^# (.+)$/gm,   '<h2 style="margin:8px 0 4px;font-size:14px;color:var(--teal);font-family:var(--font-head)">$1</h2>')
-    // Bold
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    // Italic
-    .replace(/\*(.+?)\*/g, '<em>$1</em>')
-    // Inline code
-    .replace(/`(.+?)`/g, '<code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px;font-family:var(--font-mono);font-size:11px">$1</code>')
-    // Bullet lists
-    .replace(/^[-•] (.+)$/gm, '<li style="margin:2px 0;padding-left:4px">$1</li>')
-    // Numbered lists
-    .replace(/^\d+\. (.+)$/gm, '<li style="margin:2px 0;padding-left:4px;list-style-type:decimal">$1</li>')
-    // Wrap consecutive <li> in <ul>
-    .replace(/(<li[^>]*>.*<\/li>\n?)+/g, m => `<ul style="padding-left:16px;margin:6px 0">${m}</ul>`)
-    // Horizontal rule
-    .replace(/^---$/gm, '<hr style="border:none;border-top:1px solid var(--border);margin:10px 0">')
-    // Blockquote
-    .replace(/^> (.+)$/gm, '<blockquote style="border-left:2px solid var(--teal);padding-left:10px;margin:6px 0;color:var(--text2);font-style:italic">$1</blockquote>')
-    // Paragraphs (double newline → paragraph break)
-    .replace(/\n\n/g, '</p><p style="margin:6px 0">')
-    // Single newlines → <br>
-    .replace(/\n/g, '<br>');
-}
-
-// ── UI HELPERS ─────────────────────────────────────────
-function toggleAI() { $('ai-panel').classList.toggle('open'); }
-
-function addAIMessage(type, text) {
-  const msgs = $('ai-msgs');
-  const div  = document.createElement('div');
-  div.className = `ai-msg ${type}`;
-  if (type === 'bot') {
-    div.innerHTML = `<p style="margin:0">${renderMarkdown(text)}</p>`;
-  } else {
-    div.textContent = text;
-  }
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function showAITyping() {
-  const msgs = $('ai-msgs');
-  const div  = document.createElement('div');
-  div.className = 'ai-msg bot';
-  div.id = 'ai-typing';
-  div.innerHTML = '<span style="opacity:.5;font-size:12px;letter-spacing:.1em">● ● ●</span>';
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function removeAITyping() {
-  const el = $('ai-typing');
-  if (el) el.remove();
-}
-
-// ── SEND MESSAGE → ANTHROPIC API ──────────────────────
-async function sendAI() {
-  const inp = $('ai-inp');
-  const q   = inp.value.trim();
-  if (!q) return;
-
-  addAIMessage('user', q);
-  inp.value = '';
-  inp.disabled = true;
-
-  // Add to conversation history
-  aiHistory.push({ role: 'user', content: q });
-
-  showAITyping();
-
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model:      'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system:     AI_SYSTEM_PROMPT,
-        messages:   aiHistory
-      })
-    });
-
-    const data = await response.json();
-
-    if (data.error) {
-      removeAITyping();
-      addAIMessage('bot', `**Error:** ${data.error.message}`);
-      aiHistory.pop(); // remove failed message from history
-    } else {
-      const reply = data.content?.[0]?.text || 'No response received.';
-      removeAITyping();
-      addAIMessage('bot', reply);
-      // Add assistant reply to history for follow-up context
-      aiHistory.push({ role: 'assistant', content: reply });
-      // Keep history to last 10 turns to avoid token bloat
-      if (aiHistory.length > 20) aiHistory = aiHistory.slice(-20);
-    }
-  } catch (err) {
-    removeAITyping();
-    addAIMessage('bot', '**Connection error.** Please check your network and try again.');
-    aiHistory.pop();
-  }
-
-  inp.disabled = false;
-  inp.focus();
 }
 
 $('ai-inp').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) sendAI(); });
